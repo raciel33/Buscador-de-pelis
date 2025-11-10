@@ -19,13 +19,16 @@ export class InicioComponent {
   public url: any;
 
   public img = ''
-   public load_btn = false;
 
-   public genre = '';
+  public load_btn = false;
+
+  public genre = '';
+
+ //para la paginacion
+ public p: number = 1;
+ public pageSize = 10;
 
 
-
-//ordenar productos
   public sort_by= '';
 
   public title= ''
@@ -39,7 +42,7 @@ export class InicioComponent {
   }
 
 
-
+//Pelis en cartelera
 allMovies(){
   this._moviesService.allMovies().subscribe(
     (resp: any)=>{
@@ -57,9 +60,11 @@ ngOnInit(): void {
 }
 
 
-
+//Busca pelis por el titulo
 searchMovie( title:string){
-  console.log(this.title);
+
+ this.genre = '';
+
     this._moviesService.searchMovie(title).subscribe(
       (resp:any)=>{
 
@@ -69,18 +74,29 @@ searchMovie( title:string){
     )
 }
 
-
+//Pelis mejor valoradas
 rankingMovie(){
+
+  this.load_btn = true;
+
+  this.genre = '';
+  this.title = '';
+
           this._moviesService.rankingMovie().subscribe(
             (resp: any)=>{
               this.movies = resp.results
               console.log(this.movies);
       }
-  )
+)
+this.load_btn = false
 }
 
+//Busqueda por genero
 searchGenre(){
-  console.log(this.genre);
+//console.log(this.genre);
+  this.load_btn = true;
+
+  this.title = ''
 
   this.movies = []
    switch(this.genre){
@@ -141,7 +157,7 @@ searchGenre(){
          });
          break;
       }
-
+      this.load_btn = false
      // ;
    }
 

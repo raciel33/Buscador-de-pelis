@@ -21,7 +21,7 @@
                 </ul>
 
                 <select class="bg-dark fs-1 text-light border-0 nav-link p-0" name="genre" [(ngModel)]="genre" (change)="searchGenre()">
-                > 
+                >
                           <option value="">Genero</option>
                           <option value="accion">Accion</option>
                           <option value="aventura">Aventura</option>
@@ -39,54 +39,75 @@
 
     <!-- Resultado de la busqueda -->
 
-    <div *ngIf="movies.length > 0 ">
+    <div *ngIf="movies.length > 0" class="animate__animated animate__fadeIn">
+
+        <!-- Spinner-->
+        <div class="row" *ngIf="load_btn">
+            <div class="col-12 text-center mt-5">
+                <!-- Page loading spinner-->
+                <!-- Primary spinner -->
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Botones para ordenar-->
+        <span class="text-white fs-3">Ordenar por:</span>
+        <button type="button" class="btn btn-secondary rounded-pill mx-3" #estreno value="estreno" (click)="sortBy(estreno.value)">Estreno</button>
+        <button type="button" class="btn btn-secondary rounded-pill mx-3" #aZ value="aZ" (click)="sortBy(aZ.value)">Aa-Zz</button>
+        <button type="button" class="btn btn-secondary rounded-pill mx-3" #zA value="zA" (click)="sortBy(zA.value)">Zz-aa</button>
+
+
 
         <div class="mt-3">
-            <span class="text-white fs-3">Ordenar por:</span>
-            <button type="button" class="btn btn-secondary rounded-pill mx-3" #estreno value="estreno" (click)="sortBy(estreno.value)">Estreno</button>
-            <button type="button" class="btn btn-secondary rounded-pill mx-3" #aZ value="aZ" (click)="sortBy(aZ.value)">Aa-Zz</button>
-            <button type="button" class="btn btn-secondary rounded-pill mx-3" #zA value="zA" (click)="sortBy(zA.value)">Zz-aa</button>
+            <div class="row mt-5 ">
+                <div class="col-4 mt-3" *ngFor="let item of movies  | paginate:  {itemsPerPage: pageSize, currentPage: p} ">
+                    <div class="card gallery bg-dark" style="height: 650px">
 
-        </div>
-        <div class="row mt-5">
-            <div class="col-4 mt-3" *ngFor="let item of movies  ">
-                <div class="card gallery bg-dark" style="height: 650px">
+                        <a class="gallery-item card-img-top" *ngIf="item.backdrop_path == null">
 
-                    <a class="gallery-item card-img-top" *ngIf="item.backdrop_path == null">
+                            <img src='../../../assets/img/noImage.jpg' style="height:400px ;width: 100%" alt="Movie image">
+                        </a>
+                        <a class="gallery-item card-img-top">
 
-                        <img src='../../../assets/img/noImage.jpg' style="height:400px ;width: 100%" alt="Movie image">
-                    </a>
-                    <a class="gallery-item card-img-top">
+                            <img [src]="'https://image.tmdb.org/t/p/w500/'+ item.backdrop_path" style="height:400px ;width: 100%" alt="Movie image">
+                        </a>
 
-                        <img [src]="'https://image.tmdb.org/t/p/w500/'+ item.backdrop_path" style="height:400px ;width: 100%" alt="Movie image">
-                    </a>
+                        <div class="card-body ">
 
-                    <div class="card-body ">
-
-                        <h5 class=" text-warning">{{item.original_title }}
-                        </h5>
-                        <p class="text-white">{{item.release_date |date}} </p>
-                        <!-- <p class="text-white">{{item.Genre}} </p> -->
-                        <span class="text-white fs-4">Ave:
+                            <h5 class=" text-warning">{{item.original_title }}
+                            </h5>
+                            <p class="text-white">{{item.release_date |date}} </p>
+                            <!-- <p class="text-white">{{item.Genre}} </p> -->
+                            <span class="text-white fs-4">Ave:
                             {{item.vote_average }}
                             <img style="height: 30px"  src="../../../assets/img/star.png"  alt="">
                         </span>
 
-                        <div class="d-grid gap-2 mt-4">
-                            <a class="btn btn-sm btn-primary " [routerLink]="['/detail', item.id ]" href="#">Ver detalles</a>
+                            <div class="d-grid gap-2 mt-4">
+                                <a class="btn btn-sm btn-primary " [routerLink]="['/detail', item.id ]" href="#">Ver detalles</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="">
+
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+
             </div>
+
         </div>
 
+
+        <div class="" *ngIf="movies.length==0 && title ">
+            <h3 class="text-warning text-center">No hay peliculas</h3>
+        </div>
+
+
+
+
+
     </div>
-    <div class="" *ngIf="movies.length==0 && title ">
-        <h3 class="text-warning text-center">No hay peliculas</h3>
-    </div>
-
-
-
-
-
-</div>

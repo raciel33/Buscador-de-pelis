@@ -7,8 +7,8 @@ import { DetailMovieComponent } from './components/detail-movie/detail-movie.com
 
 const routes: Routes = [
     { path: 'inicio',component:InicioComponent },
-      { path: 'search',component:SearchComponent },
-        { path: 'detail/:id', component: DetailMovieComponent},
+    { path: 'search',component:SearchComponent },
+    { path: 'detail/:id', component: DetailMovieComponent},
 
 
   { path: '**',redirectTo:'inicio'}
