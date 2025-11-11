@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GLOBAL } from '../GLOBAL';
+import { Movie } from '../interfaces/movie';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,30 +36,35 @@ ngOnInit(): void {
 
 }
 //Todas las pelis en cartelera
-allMovies(){
+allMovies():Observable<Movie>{
+
   //https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1
-  return this._http.get(`${this.url}/movie/now_playing?language=en-US&page=1`, this.headers)
+
+  return this._http.get<Movie>(`${this.url}/movie/now_playing?language=en-US&page=1`, this.headers)
 }
 
 //Busqueda por titulo
-searchMovie( searchTitle: any){
+searchMovie( searchTitle: any):Observable<Movie>{
+
   //https://api.themoviedb.org/3/search/movie?query=hulk&include_adult=false&language=en-US&page=1
 
-   return this._http.get(`${this.url}/search/movie?query=${searchTitle}&include_adult=false&language=en-US&page=1`,this.headers);
+   return this._http.get<Movie>(`${this.url}/search/movie?query=${searchTitle}&include_adult=false&language=en-US&page=1`,this.headers);
 
   }
 
   //Pelis mas populares
-  rankingMovie(){
+  rankingMovie():Observable<Movie>{
+
     //https://api.themoviedb.org/3/person/popular?language=en-US&page=1
-   return this._http.get(`${this.url}/movie/top_rated?language=en-US&page=1`,this.headers);
+
+    return this._http.get<Movie>(`${this.url}/movie/top_rated?language=en-US&page=1`,this.headers);
 
   }
 
    //Detalle de una peli
-  detailMovie(id:any){
+  detailMovie(id:any):Observable<Movie>{
        //https://api.themoviedb.org/3/movie/18?language=en-US
-    return this._http.get(`${this.url}/movie/${id}?language=en-US`,this.headers);
+    return this._http.get<Movie>(`${this.url}/movie/${id}?language=en-US`,this.headers);
 
   }
 }

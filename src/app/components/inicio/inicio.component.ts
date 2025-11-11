@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { fromEvent, map } from 'rxjs';
 import { GLOBAL } from 'src/app/GLOBAL';
 import { MoviesServiceService } from 'src/app/services/movies-service.service';
+import { Movie } from '../../interfaces/movie';
 
 @Component({
   selector: 'app-inicio',
@@ -12,7 +13,7 @@ export class InicioComponent {
 
   public movies: any = [];
 
-  public allMoviesNow: any = []
+  public allMoviesNow: Movie[] = [];
 
   public moviesAccion: any = [];
 
@@ -42,15 +43,6 @@ export class InicioComponent {
   }
 
 
-//Pelis en cartelera
-allMovies(){
-  this._moviesService.allMovies().subscribe(
-    (resp: any)=>{
-      this.allMoviesNow = resp.results
-      console.log(this.allMoviesNow);
-    }
-  )
-}
 
 
 ngOnInit(): void {
@@ -58,7 +50,16 @@ ngOnInit(): void {
   this.allMovies()
 
 }
-
+//Pelis en cartelera
+allMovies(){
+  this._moviesService.allMovies().subscribe(
+    (resp: any)=>{
+      this.allMoviesNow = resp.results
+      console.log(this.allMoviesNow);
+      this.movies = !resp !== undefined ? resp: []
+    }
+  )
+}
 
 //Busca pelis por el titulo
 searchMovie( title:string){
@@ -82,7 +83,7 @@ rankingMovie(){
   this.genre = '';
   this.title = '';
 
-          this._moviesService.rankingMovie().subscribe(
+ this._moviesService.rankingMovie().subscribe(
             (resp: any)=>{
               this.movies = resp.results
               console.log(this.movies);
@@ -101,8 +102,8 @@ searchGenre(){
   this.movies = []
    switch(this.genre){
       case 'accion':
-         this.allMoviesNow.forEach((element:any) => {
-          console.log(element);
+         this.allMoviesNow.forEach((element:Movie) => {
+         // console.log(element);
            if ((element.genre_ids).indexOf(28)>=0) {
               this.movies.push(element)
            }
@@ -110,7 +111,7 @@ searchGenre(){
        break;
       case 'aventura':
          this.allMoviesNow.forEach((element:any) => {
-          console.log(element);
+        //  console.log(element);
            if ((element.genre_ids).indexOf(12)>=0) {
               this.movies.push(element)
            }
@@ -118,7 +119,7 @@ searchGenre(){
        break;
       case 'terror':
          this.allMoviesNow.forEach((element:any) => {
-          console.log(element);
+        //  console.log(element);
            if ((element.genre_ids).indexOf(27)>=0) {
               this.movies.push(element)
            }
@@ -126,7 +127,7 @@ searchGenre(){
        break;
       case 'crimen':
          this.allMoviesNow.forEach((element:any) => {
-          console.log(element);
+         // console.log(element);
            if ((element.genre_ids).indexOf(80)>=0) {
               this.movies.push(element)
            }
@@ -134,7 +135,7 @@ searchGenre(){
        break;
       case 'comedia':
          this.allMoviesNow.forEach((element:any) => {
-          console.log(element);
+         // console.log(element);
            if ((element.genre_ids).indexOf(35)>=0) {
               this.movies.push(element)
            }
@@ -142,7 +143,7 @@ searchGenre(){
        break;
       case 'drama':
          this.allMoviesNow.forEach((element:any) => {
-          console.log(element);
+         // console.log(element);
            if ((element.genre_ids).indexOf(18)>=0) {
               this.movies.push(element)
            }
@@ -150,7 +151,7 @@ searchGenre(){
        break;
       case 'animation':
          this.allMoviesNow.forEach((element:any) => {
-          console.log(element);
+        //  console.log(element);
            if ((element.genre_ids).indexOf(16)>=0) {
               this.movies.push(element)
            }
