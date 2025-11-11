@@ -55,8 +55,8 @@ allMovies(){
   this._moviesService.allMovies().subscribe(
     (resp: any)=>{
       this.allMoviesNow = resp.results
-      console.log(this.allMoviesNow);
-      this.movies = !resp !== undefined ? resp: []
+
+
     }
   )
 }
